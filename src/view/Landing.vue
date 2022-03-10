@@ -48,7 +48,7 @@
                             :key="i"
                             cols="12" md="4"
                         >
-                            <v-card height="120" width="420">
+                            <v-card height="120">
                                 <v-col cols="12" md="10">
                                     <v-row dense align="center">
                                         <v-col cols="12" md="2">
@@ -61,7 +61,9 @@
                                         </v-col>                                         
                                     </v-row>
                                     <v-row>
-                                        &emsp;<h3>{{blog.topic}}</h3>
+                                         &emsp;
+                                        <div v-if="blog.topic.length<24"><h3>{{blog.topic}}</h3></div>
+                                        <div v-else><h3>{{blog.topic.substring(0, 24)+"..."}}</h3></div>
                                     </v-row>
                                     <v-row>
                                         &emsp;<p style="font-size:12px;">{{blog.createdAt}}</p>

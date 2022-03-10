@@ -43,7 +43,7 @@
                                     outlined
                                 >
                                     <v-list-item 
-                                        href="/read/?blogID=2"
+                                        :href="blogBaseURL+topicResult.id"
                                     >
                                         <v-list-item-avatar>
                                             <v-img :src="topicResult.createdBy_user.photo"></v-img>
@@ -92,7 +92,7 @@
                                     outlined
                                 >
                                     <v-list-item 
-                                        href="/read/?blogID=2"
+                                        :href="blogBaseURL+contentResult.id"
                                     >
                                         <v-list-item-avatar>
                                             <v-img :src="contentResult.createdBy_user.photo"></v-img>
@@ -203,7 +203,8 @@ export default {
             followIcon: mdiAccountMultiplePlus,
             responsesIcon: mdiAccountTieVoice,
             defaultText: 'Make sure all words are spelled correctly. Try different keywords. Try more general keywords.',
-            followFlag: { }
+            followFlag: { },
+            blogBaseURL: '/read/?blogID='
         }
     },
     computed: {

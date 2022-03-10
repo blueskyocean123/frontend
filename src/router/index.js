@@ -15,11 +15,10 @@ import Write from '@/components/dashboard/Write';
 import Edit from '@/components/dashboard/Edit';
 import Read from '@/components/dashboard/Read';
 import List from '@/components/dashboard/List';
-import Profile from '@/components/dashboard/Profile';
+import Profile from '@/components/dashboard/newProfile';
 import Search from '@/components/dashboard/Search';
 import Tag from '@/components/dashboard/Tag';
 
-import LogInType from '@/components/other/LogInType';
 import Test from '@/view/Test';
 
 Vue.use(Router)
@@ -40,11 +39,6 @@ const router = new Router({
       path: '/',
       name: 'Landing',
       component: Landing
-    },
-    { // http://localhost:8080/#/login
-      path: '/logintype',
-      name: 'LogInType',
-      component: LogInType
     },
     { // http://localhost:8080/#/login
       path: '/login',

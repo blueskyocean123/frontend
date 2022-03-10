@@ -111,7 +111,7 @@ export default {
         return {
             blogsIcon: mdiNoteMultiple,
             responsesIcon: mdiAccountTieVoice,
-            content: "Your Blogs",
+            content: 'Your Blogs',
             tabs: null,
             text1: 'This is text 1.',
             text2: 'This is text 2. ',

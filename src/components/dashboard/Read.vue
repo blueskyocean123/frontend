@@ -347,7 +347,7 @@ export default {
     });
     await this.$store.dispatch('getTag', this.$route.query.blogID)
     .then(res => {
-      console.log(this.$store.state.getTagsInfo);
+      // console.log(this.$store.state.getTagsInfo);
     })
     .catch(err => {
       console.log(err);

@@ -43,7 +43,9 @@
                                 max-width="840"
                                 outlined
                             >
-                                <v-list-item>
+                                <v-list-item
+                                    :href="blogBaseURL+blog.id"
+                                >
                                     <v-list-item-avatar>
                                         <v-img :src="blog.createdBy_user.photo"></v-img>
                                     </v-list-item-avatar>
@@ -58,11 +60,13 @@
                                     </v-list-item-content>
                                     <br>
 
-                                    <v-list-item-avatar
-                                        tile
-                                        size="48"
+                                    <v-avatar
                                         color="primary"
-                                    ></v-list-item-avatar>
+                                        size="108"
+                                        tile
+                                    >
+                                        <v-img :src="blog.image"></v-img>
+                                    </v-avatar>
                                 </v-list-item>
                             </v-card>
                         </v-col>
@@ -83,7 +87,8 @@ export default {
     data() {
         return {
             tabs: null,
-            title: ''
+            title: '',
+            blogBaseURL: '/read/?blogID='
         }
     },
     name: 'Indiv',
