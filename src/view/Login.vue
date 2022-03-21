@@ -119,8 +119,8 @@ export default {
                 alert(error);
             })
         },
-        gmailLogIn () {
-            this.$gAuth.getAuthCode()
+        async gmailLogIn () {
+            await this.$gAuth.getAuthCode()
             .then(authCode => {
                 //on success
                 let params = {
@@ -138,10 +138,9 @@ export default {
                         this.$router.push({name: 'Landing'});
                     }
                 })
-                .catch(({message}) => (alert(message)));
-            })
-            .then((response) => {
-                //and then
+                .catch(message => {
+                    alert(message);
+                });
             })
             .catch((error) => {
                 //on fail do something

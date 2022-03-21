@@ -61,7 +61,7 @@
                                         </v-col>                                         
                                     </v-row>
                                     <v-row>
-                                         &emsp;
+                                        &emsp;
                                         <div v-if="blog.topic.length<24"><h3>{{blog.topic}}</h3></div>
                                         <div v-else><h3>{{blog.topic.substring(0, 24)+"..."}}</h3></div>
                                     </v-row>
@@ -73,8 +73,7 @@
                         </v-col>
                     </v-row>
                 </v-col>
-            </v-row>
-            
+            </v-row>            
             <v-row></v-row>
         </v-container>
     </v-app>

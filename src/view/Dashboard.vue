@@ -132,7 +132,7 @@ export default {
             [mdiHomeAnalytics, 'Home', '/home'],
             [mdiFormatListGroup, 'List', '/list'],
             [mdiPencilBoxOutline, 'Write', '/write'],
-            [mdiMessageBadge, 'Nofitication', '/write'],
+            [mdiMessageBadge, 'Notification', '/notification'],
         ],
         searchIcon: mdiMagnify,
         googlehref: '/profile',
@@ -164,44 +164,22 @@ export default {
     },
     methods: {
         searchSubmit() {
-            this.$store.dispatch('searchTopic', this.keyword)
-            .then((res) => {
-                // console.log(this.$store.state.topicResults);
-                this.$store.dispatch('searchContent', this.keyword)
-                .then((res) => {
-                    // console.log(this.$store.state.contentResults);
-                    this.$store.dispatch('searchUserBioinfo', this.keyword)
-                    .then((res) => {
-                        // console.log(this.$store.state.userbioResults);
-                        this.$store.dispatch('searchTag', this.keyword)
-                        .then((res) => {
-                            // console.log(res);
-                            // console.log(this.$store.state.userbioResults);
-                        })
-                        .catch((error) => {
-                            // console.log(error);
-                        });
-                    })
-                    .catch((error) => {
-                        // console.log(error);
-                    });
-                })
-                .catch((error) => {
-                    // console.log(error);
-                });
-            })
-            .catch((error) => {
-                // console.log(error);
-            });                
-            
-            if (this.$route.name != 'Search') this.$router.push({ path: '/search' });
+            localStorage.setItem('searchKeyword',  this.keyword);
+            if (this.$route.path != '/search/topic') this.$router.push({ path: '/search' });
             else {
+                this.$router.go();
                 this.boxshow = !this.boxshow;
             }
         },
         async logout() {
-            await this.$store.dispatch('logout');
-            await this.$router.push({ name: 'Landing' });
+            await this.$store.dispatch('deleteToken')
+            .then((res) => {
+                console.log(res);
+                this.$router.push({ name: 'Landing' });
+            })
+            .catch((error) => {
+                console.log(error);
+            })
         }
     }
 }

@@ -107,11 +107,8 @@ export default {
         command: this.command,
         data: {
           src: this.imageSrc
-          // alt: "YOU CAN ADD ALT",
-          // title: "YOU CAN ADD TITLE"
         }
       };
-
       this.$emit("onConfirm", data);
       this.closeModal();
     },

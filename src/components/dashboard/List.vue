@@ -80,7 +80,7 @@
                                                 <v-list-item-title><a @click="openEditPage(blog.id)">Edit Blog</a></v-list-item-title>
                                             </v-list-item>
                                             <v-list-item>
-                                                <v-list-item-title>Delete Blog</v-list-item-title>
+                                                <v-list-item-title><a @click="deleteBlog(blog.id)">Delete Blog</a></v-list-item-title>
                                             </v-list-item>
                                         </v-list>
                                     </v-menu>
@@ -134,6 +134,20 @@ export default {
     methods: {
         openEditPage(blogId) {
             this.$router.push({ path: '/edit/?blogId=' + blogId });
+        },
+        deleteBlog(blogId) {
+            let params = {
+                blogId: blogId
+            };
+            this.$store.dispatch('deleteBlog', params)
+            .then((res) => {
+                console.log(res);
+                this.$router.go();
+            })
+            .catch((error) => {
+                //on fail do something
+                alert(error);
+            })
         }
     }
 };

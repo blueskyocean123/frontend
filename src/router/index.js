@@ -15,9 +15,14 @@ import Write from '@/components/dashboard/Write';
 import Edit from '@/components/dashboard/Edit';
 import Read from '@/components/dashboard/Read';
 import List from '@/components/dashboard/List';
-import Profile from '@/components/dashboard/newProfile';
+import Profile from '@/components/dashboard/Profile';
 import Search from '@/components/dashboard/Search';
 import Tag from '@/components/dashboard/Tag';
+import User from '@/components/search/User';
+import Category from '@/components/search/Category';
+import Content from '@/components/search/Content';
+import Topic from '@/components/search/Topic';
+import Notification from '@/components/dashboard/Notification';
 
 import Test from '@/view/Test';
 
@@ -94,7 +99,35 @@ const router = new Router({
         {
           path: '/search',
           name: 'Search',
-          component: Search
+          redirect: '/search/topic',
+          component: Search,
+          children: [
+            {
+              path: '/search/topic',
+              name: 'Topic',
+              component: Topic,
+            },
+            {
+              path: '/search/content',
+              name: 'Content',
+              component: Content
+            },
+            {
+              path: '/search/category',
+              name: 'Category',
+              component: Category
+            },
+            {
+              path: '/search/user',
+              name: 'User',
+              component: User,
+            }
+          ]
+        },
+        {
+          path: '/notification',
+          name: 'Notification',
+          component: Notification
         },
         {
           path: '/tag',
@@ -113,11 +146,6 @@ const router = new Router({
       name: 'Confirmed',
       component: Confirmed
     }
-    // {
-    //   path: '/view',
-    //   name: 'ViewBlog',
-    //   component: ViewBlog
-    // }
   ]
 });
 

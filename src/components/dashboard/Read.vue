@@ -269,8 +269,7 @@ export default {
     },
     deleteFollow() {
       let params = {
-        loginUserId: this.userInfo.id,
-        blogUserId: this.blogInfo.createdBy
+        userId: this.blogInfo.createdBy
       }
       this.$store.dispatch('deleteFollow', params)
       .then(res => {
