@@ -103,6 +103,7 @@ export default {
     async beforeCreate() {
         await this.$store.dispatch('getFollow')
         .then((res) => {
+            // to ban to display the photos of same user
             for (var i = 0; i < res.data.length; i++ ) {
                 this.leaderArray.push(res.data[i].receiver_user.id); 
                 this.leaderPhotos.push(res.data[i].receiver_user.photo);
@@ -112,7 +113,9 @@ export default {
             console.log(err);
         });
         await this.$store.dispatch('getGoodBlogs')
-        .then((res) => { })
+        .then((res) => {
+            // console.log(res);
+        })
         .catch((err) => {
             console.log(err);
         });

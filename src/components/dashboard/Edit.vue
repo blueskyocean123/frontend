@@ -206,6 +206,7 @@ export default {
                 content: res.data.topic,
                 onUpdate: ({ getHTML }) => {
                     topic = getHTML();
+                    // console.log(topic);
                 }
             });
             this.editor2 = new Editor({
@@ -226,6 +227,7 @@ export default {
             })
         })
         .catch((error) => {
+            //on fail do something
             alert(error);
         })
     },
@@ -253,6 +255,7 @@ export default {
                     this.$router.push({ path: '/list' });
                 })
                 .catch((error) => {
+                    //on fail do something
                     alert(error);
                 })
             }            

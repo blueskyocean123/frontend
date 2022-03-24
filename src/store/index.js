@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
+//import imgupload from 'imgbb-uploader';
 
-Vue.use(Vuex) 
+Vue.use(Vuex) //vue에 Vuex를 설정
 
 export default new Vuex.Store({
   state: {
@@ -37,9 +38,11 @@ export default new Vuex.Store({
       state.accessToken = payload.accessToken;
       state.refreshToken = payload.refreshToken;
     },
-    refreshToken(state, payload) {
+    refreshToken(state, payload) { // accessToken 재셋팅
       localStorage.setItem('accessToken', payload.newAcsToken);
+      //localStorage.setItem('refreshToken', payload.refreshToken);
       state.accessToken = payload.newAcsToken;
+      //state.refreshToken = payload.refreshToken;
     },
     removeToken () {
       localStorage.removeItem('accessToken');
@@ -70,6 +73,9 @@ export default new Vuex.Store({
     getUserInfo(state, payload) {
       state.userInfo = payload;
     },
+    // getKeyword(state, payload) {
+    //   state.keyword = payload;
+    // },
     getTopicResults(state, payload) {
       state.topicResults = payload;
       for (var i = 0; i < state.topicResults.length; i++) {
@@ -117,6 +123,14 @@ export default new Vuex.Store({
     },
     iniUserbioResults(state, payload) {
       if (state.userbioResults) {
+        // for ( var i = 0; i < state.userbioResults.length; i++ ) {
+        //   state.userbioResults[i].followFlag = 0;
+        //   for ( var j = 0; j < payload.data.length; j++ ) {
+        //     if (state.userbioResults[i].id == payload.data[j].receiver) {
+        //       state.userbioResults[i].followFlag = 1;
+        //     }
+        //   }
+        // }
         for ( var i = 0; i < state.userbioResults.length; i++ ) {
           for ( var j = 0; j < payload.data.length; j++ ) {
             if (state.userbioResults[i].id == payload.data[j].receiver) {
@@ -146,6 +160,7 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    // 쿠키에 저장된 토큰 가져오기
     getToken (state) {
       let ac = localStorage.getItem('accessToken');
       let rf = localStorage.getItem('refreshToken');

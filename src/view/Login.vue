@@ -86,7 +86,7 @@
 import { mdiGmail, mdiEmail } from '@mdi/js';
 
 export default {
-    data () { 
+    data () { // 현재 컴포넌트에서 사용할 데이터 Set
         return {
             user_id: '',
             GmailIcon: mdiGmail,
@@ -96,7 +96,7 @@ export default {
     },
     methods: {
         emailLogIn () {
-            let user_id = this.user_id;    
+            let user_id = this.user_id; // input에 v-model은 쌍방향 데이터 바인딩으로 입력되여 있는 데이터를 바로 받을수 있음                
             if (user_id == '') {
                 alert('Your email is required.');
                 this.$refs.user_id.focus();
@@ -115,15 +115,18 @@ export default {
                 }
             })
             .catch((error) => {
+                //on fail do something
                 alert(error);
             })
         },
         async gmailLogIn () {
             await this.$gAuth.getAuthCode()
             .then(authCode => {
+                //on success
                 let params = {
                     code: authCode
                 };
+                console.log(authCode);
                 this.$store.dispatch('gmailLogInEnd', params)
                 .then((res) => {
                     if (res.data.message == 'OAuth success') {
@@ -140,7 +143,9 @@ export default {
                     alert(message);
                 });
             })
-            .catch((error) => { })
+            .catch((error) => {
+                console.log(error);
+            })
         }
     }
 }

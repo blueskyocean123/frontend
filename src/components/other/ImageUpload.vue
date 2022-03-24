@@ -75,6 +75,7 @@ export default {
   },
   methods: {
     showModal(command) {
+      // Add the sent command
       this.command = command;
       this.show = true;
     },

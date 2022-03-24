@@ -145,6 +145,7 @@ export default {
                 this.$router.go();
             })
             .catch((error) => {
+                //on fail do something
                 alert(error);
             })
         }

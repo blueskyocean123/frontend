@@ -93,6 +93,7 @@ export default {
         this.tagName = this.$route.query.name;
         await this.$store.dispatch('searchTagBlogs', this.$route.query.name)
         .then((res) => {
+            // this.title = this.blogs[0].createdBy_user.name
             console.log(this.$store.state.tagBlogs);
         })
         .catch((err) => {

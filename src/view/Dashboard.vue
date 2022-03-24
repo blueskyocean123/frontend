@@ -142,19 +142,24 @@ export default {
         ...mapState(['userInfo', 'sortTagsInfo'])
     },
     mounted() {
-        if (localStorage.getItem('accessToken') == null && localStorage.getItem('refreshToken') == null) { 
+        if (localStorage.getItem('accessToken') == null && localStorage.getItem('refreshToken') == null) { //다 없으면 로그인 페이지로
             this.$router.push({name: 'Landing'}).catch(() => {}); 
         } else {
             this.$store.dispatch('getProfile')
             .then((res) => {
                 this.thename = this.userInfo.photo;
+                // console.log(this.userInfo);
             })
             .catch((err) => {
                 console.log(err);
             });
             this.$store.dispatch('sortTags')
-            .then((res) => { })
-            .catch((err) => { });
+            .then((res) => {
+                // console.log(this.$store.state.sortTagsInfo);
+            })
+            .catch((err) => {
+                // console.log();
+            });
         }
     },
     methods: {
