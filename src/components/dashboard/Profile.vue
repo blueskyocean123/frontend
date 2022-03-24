@@ -154,10 +154,6 @@
                 this.readonly1 = true;
                 this.readonly2 = true;
                 this.readonly3 = true;
-                // // console.log("getUser:".concat(this.$store.state.user.username));
-                // // this.username = this.getUser.username;
-                // // this.email = this.getUser.email;
-                // // this.bio = this.getUser.bio;
             },
             selectFile(file) {
                 this.isSelected = true;
@@ -188,18 +184,6 @@
                 .catch((error) => {
                     console.log(error);
                 })
-
-                // try {
-                //   const {data} = await this.$Axios.post('http://localhost:3000/api/users/avatar/'.concat(this.getUser.id), formData, {
-                //     headers: {
-                //       'Content-Type': 'multipart/form-data'
-                //       }
-                //     });
-                //     console.log(data);
-                //   this.$store.dispatch('setAvatar', data.photo)
-                // } catch(err) {
-                //   console.log(err);
-                // }
             }
         },
         mounted() {

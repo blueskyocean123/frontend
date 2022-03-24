@@ -97,8 +97,7 @@ export default {
     async created() {
         await this.$store.dispatch('getOtherBlogs', this.$route.query.userId)
         .then((res) => {
-            this.title = this.blogs[0].createdBy_user.name
-            // console.log(res);
+            this.title = this.blogs[0].createdBy_user.name;
         })
         .catch((err) => {
             console.log(err);

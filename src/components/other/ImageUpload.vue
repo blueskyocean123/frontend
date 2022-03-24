@@ -75,7 +75,6 @@ export default {
   },
   methods: {
     showModal(command) {
-      // Add the sent command
       this.command = command;
       this.show = true;
     },
@@ -92,13 +91,13 @@ export default {
       let params = {
         imageFile: this.chosenFile
       };
+
       this.$store.dispatch('uploadImage', params)
       .then((res) => {
-        this.imageSrc = res.data.msg;
+        this.imageSrc = res.data.data.url;
         console.log(this.imageSrc);
       })
       .catch((error) => {
-        //on fail do something
         alert(error);
       })
     },

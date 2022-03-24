@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
 import axios from 'axios';
 
-Vue.use(Vuex) //vue에 Vuex를 설정
+Vue.use(Vuex) 
 
 export default new Vuex.Store({
   state: {
@@ -37,11 +37,9 @@ export default new Vuex.Store({
       state.accessToken = payload.accessToken;
       state.refreshToken = payload.refreshToken;
     },
-    refreshToken(state, payload) { // accessToken 재셋팅
+    refreshToken(state, payload) {
       localStorage.setItem('accessToken', payload.newAcsToken);
-      //localStorage.setItem('refreshToken', payload.refreshToken);
       state.accessToken = payload.newAcsToken;
-      //state.refreshToken = payload.refreshToken;
     },
     removeToken () {
       localStorage.removeItem('accessToken');
@@ -72,9 +70,6 @@ export default new Vuex.Store({
     getUserInfo(state, payload) {
       state.userInfo = payload;
     },
-    // getKeyword(state, payload) {
-    //   state.keyword = payload;
-    // },
     getTopicResults(state, payload) {
       state.topicResults = payload;
       for (var i = 0; i < state.topicResults.length; i++) {
@@ -122,14 +117,6 @@ export default new Vuex.Store({
     },
     iniUserbioResults(state, payload) {
       if (state.userbioResults) {
-        // for ( var i = 0; i < state.userbioResults.length; i++ ) {
-        //   state.userbioResults[i].followFlag = 0;
-        //   for ( var j = 0; j < payload.data.length; j++ ) {
-        //     if (state.userbioResults[i].id == payload.data[j].receiver) {
-        //       state.userbioResults[i].followFlag = 1;
-        //     }
-        //   }
-        // }
         for ( var i = 0; i < state.userbioResults.length; i++ ) {
           for ( var j = 0; j < payload.data.length; j++ ) {
             if (state.userbioResults[i].id == payload.data[j].receiver) {
@@ -159,7 +146,6 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    // 쿠키에 저장된 토큰 가져오기
     getToken (state) {
       let ac = localStorage.getItem('accessToken');
       let rf = localStorage.getItem('refreshToken');
@@ -180,7 +166,7 @@ export default new Vuex.Store({
     // auth part
     emailLogInInit: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://3.88.169.40/api/user/auth/login', params)
+        axios.post('http://localhost:4036/user/auth/login', params)
         .then(res => {
           resolve(res);
         })
@@ -192,7 +178,7 @@ export default new Vuex.Store({
     },
     emailLogInEnd: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://3.88.169.40/api/user/auth/login/?authcode=' + params.authcode + '&email=' + params.email)
+        axios.get('http://localhost:4036/user/auth/login/?authcode=' + params.authcode + '&email=' + params.email)
         .then(res => {
           commit('initToken', res.data.data);
           resolve(res);
@@ -205,7 +191,7 @@ export default new Vuex.Store({
     },
     emailSignUpInit: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://3.88.169.40/api/user/auth/signup', params)
+        axios.post('http://localhost:4036/user/auth/signup', params)
         .then(res => {
           // commit('tokenInit', res.data.data);
           resolve(res);
@@ -218,7 +204,7 @@ export default new Vuex.Store({
     },
     emailSignUpEnd: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        const signupURL = 'http://3.88.169.40/api/user/auth/signup/?authcode=' + params.authcode + '&email=' + params.email;
+        const signupURL = 'http://localhost:4036/user/auth/signup/?authcode=' + params.authcode + '&email=' + params.email;
         axios.get(signupURL)
         .then(res => {
           commit('initToken', res.data.data);
@@ -233,7 +219,7 @@ export default new Vuex.Store({
     },    
     deleteToken: ({commit}) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://3.88.169.40/api/user/token/delete').then(res => {
+        axios.post('http://localhost:4036/user/token/delete').then(res => {
           commit('removeToken');
           resolve(res);
         }).catch(err => {
@@ -244,7 +230,7 @@ export default new Vuex.Store({
     },
     refreshToken: ({commit}) => { 
       return new Promise((resolve, reject) => {
-        axios.post('http://3.88.169.40/api/user/token/refresh').then(res => {
+        axios.post('http://localhost:4036/user/token/refresh').then(res => {
           commit('refreshToken', res.data.data);
           //console.log(res.data);
           resolve(res.data.data);
@@ -257,7 +243,7 @@ export default new Vuex.Store({
     // oauth part
     gmailLogInEnd: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://3.88.169.40/api/user/oauth/login/google', params)
+        axios.post('http://localhost:4036/user/oauth/login/google', params)
         .then(res => {
           if (res.data.message == 'OAuth success') {
             commit('initToken', res.data.data);
@@ -272,7 +258,7 @@ export default new Vuex.Store({
     },
     gmailSignUpEnd: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://3.88.169.40/api/user/oauth/signup/google', params)
+        axios.post('http://localhost:4036/user/oauth/signup/google', params)
         .then(res => {
           if (res.data.message == 'OAuth success') {
             commit('initToken', res.data.data);
@@ -288,13 +274,13 @@ export default new Vuex.Store({
     // blog part
     createBlog: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://3.88.169.40/api/blog/create', params)
+        axios.post('http://localhost:4036/blog/create', params)
         .then(res => {
           let newParams = {
             blogId: res.data.id,
             tags: params.tags
           }
-          axios.post('http://3.88.169.40/api/blog/tag/create', newParams)
+          axios.post('http://localhost:4036/blog/tag/create', newParams)
           .then(res=> {
             resolve(res);
           })
@@ -308,21 +294,9 @@ export default new Vuex.Store({
         });
       })
     },
-    // imageUpload: ({commit}, params) => {
-    //   return new Promise((resolve, reject) => {
-    //     axios.post('http://3.88.169.40/api/image/upload', params)
-    //     .then(res => {
-    //       resolve(res);
-    //     })
-    //     .catch(err => {
-    //       console.log(err.message);
-    //       reject(err.message);
-    //     });
-    //   })
-    // },
     readBlog: ({commit}, blogId) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://3.88.169.40/api/blog/read/?blogId=' + blogId)
+        axios.get('http://localhost:4036/blog/read/?blogId=' + blogId)
         .then(res => {
           commit('getBlogInfo', res.data);
           resolve(res);
@@ -335,7 +309,7 @@ export default new Vuex.Store({
     },
     deleteBlog: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://3.88.169.40/api/blog/delete', params)
+        axios.post('http://localhost:4036/blog/delete', params)
         .then(res => {
           resolve(res);
         })
@@ -347,19 +321,19 @@ export default new Vuex.Store({
     },
     updateBlog: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://3.88.169.40/api/blog/update', params)
+        axios.post('http://localhost:4036/blog/update', params)
         .then(res => {
           let secParams = {
             blogId: params.blogId,
             tags: params.tags
           }
-          axios.post('http://3.88.169.40/api/blog/tag/init', secParams)
+          axios.post('http://localhost:4036/blog/tag/init', secParams)
           .then(res=> {
             let thirdParams = {
               blogId: params.blogId,
               tags: params.tags
             }
-            axios.post('http://3.88.169.40/api/blog/tag/create', thirdParams)
+            axios.post('http://localhost:4036/blog/tag/create', thirdParams)
             .then(res => {
               resolve(res);
             })
@@ -379,7 +353,7 @@ export default new Vuex.Store({
     },
     getGoodBlogs: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://3.88.169.40/api/blog/getGoodBlogs')
+        axios.get('http://localhost:4036/blog/getGoodBlogs')
         .then(res => {
           commit('getBlogs', res.data);
           resolve(res);
@@ -390,11 +364,12 @@ export default new Vuex.Store({
         });
       })
     },
-    uploadImage: ({commit}, params) => {
+    uploadImage: async ({commit}, params) => {
       return new Promise((resolve, reject) => {
         let formData = new FormData();
+        formData.set('key', '32ced62bef87f6a4690c750c2e6aa364');
         formData.append('image', params.imageFile);
-        axios.post('http://3.88.169.40/api/image/upload', 
+        axios.post('https://api.imgbb.com/1/upload', 
           formData, { 
             headers: { 
               'Content-Type': 'multipart/form-data' 
@@ -412,7 +387,7 @@ export default new Vuex.Store({
     },
     getMyBlogs: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://3.88.169.40/api/blog/getMyBlogs')
+        axios.get('http://localhost:4036/blog/getMyBlogs')
         .then(res => {
           commit('getBlogs', res.data);
           resolve(res);
@@ -425,7 +400,7 @@ export default new Vuex.Store({
     },
     getOtherBlogs: ({commit}, userId) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://3.88.169.40/api/blog/getOtherBlogs/?userId=' + userId)
+        axios.get('http://localhost:4036/blog/getOtherBlogs/?userId=' + userId)
         .then(res => {
           commit('getBlogs', res.data);
           resolve(res);
@@ -439,7 +414,7 @@ export default new Vuex.Store({
     // user part
     getProfile: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://3.88.169.40/api/user/profile/read/me')
+        axios.get('http://localhost:4036/user/profile/read/me')
         .then(res => {
           commit('getUserInfo', res.data)
           resolve(res);
@@ -452,7 +427,7 @@ export default new Vuex.Store({
     },
     updateProfile: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://3.88.169.40/api/user/profile/update/me', params)
+        axios.post('http://localhost:4036/user/profile/update/me', params)
         .then(res => {
           // commit('getUserInfo', res.data)
           resolve(res);
@@ -466,7 +441,7 @@ export default new Vuex.Store({
     // comment part
     readComment: ({commit}, blogId) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://3.88.169.40/api/blog/comment/read/?blogId=' + blogId)
+        axios.get('http://localhost:4036/blog/comment/read/?blogId=' + blogId)
         .then(res => {
           // console.log(res.data);
           commit('getComments', res.data);
@@ -480,10 +455,10 @@ export default new Vuex.Store({
     },
     commitComment: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://3.88.169.40/api/blog/comment/create', params)
+        axios.post('http://localhost:4036/blog/comment/create', params)
         .then(res => {
           if (res.data.msg == "success") {
-            axios.get('http://3.88.169.40/api/blog/comment/read/?blogId=' + params.blogId)
+            axios.get('http://localhost:4036/blog/comment/read/?blogId=' + params.blogId)
             .then(res => {
               // console.log(res.data);
               commit('getComments', res.data);
@@ -506,7 +481,7 @@ export default new Vuex.Store({
     //follow part
     createFollow: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://3.88.169.40/api/user/follow/create', params)
+        axios.post('http://localhost:4036/user/follow/create', params)
         .then(res => {
           commit('getFollowType', res.data);
           resolve(res);
@@ -518,7 +493,7 @@ export default new Vuex.Store({
     },
     checkFollow: ({commit}, userId) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://3.88.169.40/api/user/follow/check/?userId=' + userId)
+        axios.get('http://localhost:4036/user/follow/check/?userId=' + userId)
         .then(res => {
           commit('getFollowType', res.data);
           resolve(res.data);
@@ -530,7 +505,7 @@ export default new Vuex.Store({
     },
     deleteFollow: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://3.88.169.40/api/user/follow/delete', params)
+        axios.post('http://localhost:4036/user/follow/delete', params)
         .then(res => {
           commit('getFollowType', res.data);
           resolve(res);
@@ -542,7 +517,7 @@ export default new Vuex.Store({
     },
     getFollow: ({commit}) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://3.88.169.40/api/user/follow/get')
+        axios.get('http://localhost:4036/user/follow/get')
         .then(res => {
           commit('iniUserbioResults', res);
           resolve(res);
@@ -555,7 +530,7 @@ export default new Vuex.Store({
     // clap part
     createClap: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://3.88.169.40/api/blog/clap/create', params)
+        axios.post('http://localhost:4036/blog/clap/create', params)
         .then(res => {
           resolve(res);
         })
@@ -566,7 +541,7 @@ export default new Vuex.Store({
     },
     getClapNum: ({commit}, blogId) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://3.88.169.40/api/blog/clap/get/?blogId=' + blogId)
+        axios.get('http://localhost:4036/blog/clap/get/?blogId=' + blogId)
         .then(res => {
           commit('getClapNum', res.data);
           resolve(res);
@@ -578,7 +553,7 @@ export default new Vuex.Store({
     },
     checkClap: ({commit}, blogId) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://3.88.169.40/api/blog/clap/check/?blogId=' + blogId)
+        axios.get('http://localhost:4036/blog/clap/check/?blogId=' + blogId)
         .then(res => {
           commit('getClapType', res.data);
           resolve(res);
@@ -591,7 +566,7 @@ export default new Vuex.Store({
     // tag part
     sortTags: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://3.88.169.40/api/blog/tag/sort')
+        axios.get('http://localhost:4036/blog/tag/sort')
         .then((res) => {
           commit('sortTagsInfo', res.data);
           resolve(res);
@@ -603,7 +578,7 @@ export default new Vuex.Store({
     },
     getTag: ({commit}, blogId) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://3.88.169.40/api/blog/tag/get/?blogId=' + blogId)
+        axios.get('http://localhost:4036/blog/tag/get/?blogId=' + blogId)
         .then((res) => {
           commit('getTagsInfo', res.data);
           resolve(res);
@@ -617,7 +592,7 @@ export default new Vuex.Store({
     searchTopic: ({commit}) => {
       return new Promise((resolve, reject) => {
         let keyword = localStorage.getItem('searchKeyword');
-        axios.get('http://3.88.169.40/api/blog/search/topic/?keyword=' + keyword)
+        axios.get('http://localhost:4036/blog/search/topic/?keyword=' + keyword)
         .then((res) => {
           commit('getTopicResults', res.data.foundBlog);
           resolve(res);
@@ -630,7 +605,7 @@ export default new Vuex.Store({
     searchTag: ({commit}) => {
       return new Promise((resolve, reject) => {
         let keyword = localStorage.getItem('searchKeyword');
-        axios.get('http://3.88.169.40/api/blog/search/tag/?keyword=' + keyword)
+        axios.get('http://localhost:4036/blog/search/tag/?keyword=' + keyword)
         .then(res => {
           commit('getTagResults', res.data);
           resolve(res);
@@ -642,7 +617,7 @@ export default new Vuex.Store({
     },
     searchTagBlogs: ({commit}, tagName) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://3.88.169.40/api/blog/search/tagBlog/?name=' + tagName)
+        axios.get('http://localhost:4036/blog/search/tagBlog/?name=' + tagName)
         .then(res => {
           commit('getTagBlogs', res.data);
           resolve(res);
@@ -655,7 +630,7 @@ export default new Vuex.Store({
     searchContent: ({commit}) => {
       return new Promise((resolve, reject) => {        
         let keyword = localStorage.getItem('searchKeyword');
-        axios.get('http://3.88.169.40/api/blog/search/content/?keyword=' + keyword)
+        axios.get('http://localhost:4036/blog/search/content/?keyword=' + keyword)
         .then(res => {
           commit('getContentResults', res.data.foundBlog);
           resolve(res);
@@ -668,7 +643,7 @@ export default new Vuex.Store({
     searchUserBioinfo: ({commit}) => {
       return new Promise((resolve, reject) => {
         let keyword = localStorage.getItem('searchKeyword');
-        axios.get('http://3.88.169.40/api/blog/search/userbio/?keyword=' + keyword)
+        axios.get('http://localhost:4036/blog/search/userbio/?keyword=' + keyword)
         .then(res => {
           commit('getuserbioResults', res.data.foundUser);
           resolve(res);

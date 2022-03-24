@@ -2,16 +2,18 @@ import axios from 'axios';
 import store from '../store'
 
 // axios.defaults.baseURL = 'http://localhost:3000';
-// const instance = axios.create({
-//   baseURL: 'http://localhost:4036',
-//   timeout: 1000
-// })
+const instance = axios.create({
+  timeout: 1000
+})
 
 // Add a request interceptor
 axios.interceptors.request.use(async function (config) {
+  //console.log(config);
   // Do something before request is sent
-  config.headers['x-access-token'] = localStorage.getItem('accessToken');
-  config.headers['x-refresh-token'] = localStorage.getItem('refreshToken');
+  if (config.url != "https://api.imgbb.com/1/upload") {
+    config.headers['x-access-token'] = localStorage.getItem('accessToken');
+    config.headers['x-refresh-token'] = localStorage.getItem('refreshToken');
+  }  
   config.headers['Content-Type'] = 'application/json';
 
   return config;

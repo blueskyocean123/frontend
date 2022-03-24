@@ -260,9 +260,7 @@ export default {
         userId: this.blogInfo.createdBy
       }
       this.$store.dispatch('createFollow', params)
-      .then((res) => {
-        // console.log(res);
-      })
+      .then((res) => { })
       .catch(err => {
         console.log(err);
       })
@@ -288,10 +286,7 @@ export default {
         this.$store.dispatch('getClapNum', this.$route.query.blogID)
         .then(res => {
           this.$store.dispatch('checkClap', this.$route.query.blogID)
-          .then(res => {
-            // if (res.data.msg < 2) this.claptype = 1;
-            // else this.claptype = 2;
-          })
+          .then(res => { })
           .catch(error => {
             console.log(error);
           })
@@ -310,9 +305,7 @@ export default {
         console.log(this.$store.state.blogInfo);
         if (this.blogInfo.createdBy != this.userInfo.id) {
           this.$store.dispatch('checkFollow', this.blogInfo.createdBy)
-          .then(res => {
-            // console.log(res);
-          })
+          .then(res => { })
           .catch(error => {
             console.log(error);
           })
@@ -331,23 +324,17 @@ export default {
       });
     });    
     await this.$store.dispatch('readComment', this.$route.query.blogID)
-    .then((res) => {
-      // console.log(this.comments); 
-    })
+    .then((res) => { })
     .catch((error) => {
       alert(error);
     });
     await this.$store.dispatch('getClapNum', this.$route.query.blogID)
-    .then(res => {
-      // this.clapNum = res.data.msg;
-    })
+    .then(res => { })
     .catch(err => {
       console.log(err);
     });
     await this.$store.dispatch('getTag', this.$route.query.blogID)
-    .then(res => {
-      // console.log(this.$store.state.getTagsInfo);
-    })
+    .then(res => { })
     .catch(err => {
       console.log(err);
     })
