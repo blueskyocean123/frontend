@@ -166,7 +166,7 @@ export default new Vuex.Store({
     // auth part
     emailLogInInit: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4036/user/auth/login', params)
+        axios.post('http://navy.happybirthdayhub.com/api/user/auth/login', params)
         .then(res => {
           resolve(res);
         })
@@ -178,7 +178,7 @@ export default new Vuex.Store({
     },
     emailLogInEnd: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:4036/user/auth/login/?authcode=' + params.authcode + '&email=' + params.email)
+        axios.get('http://navy.happybirthdayhub.com/api/user/auth/login/?authcode=' + params.authcode + '&email=' + params.email)
         .then(res => {
           commit('initToken', res.data.data);
           resolve(res);
@@ -191,7 +191,7 @@ export default new Vuex.Store({
     },
     emailSignUpInit: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4036/user/auth/signup', params)
+        axios.post('http://navy.happybirthdayhub.com/api/user/auth/signup', params)
         .then(res => {
           // commit('tokenInit', res.data.data);
           resolve(res);
@@ -204,7 +204,7 @@ export default new Vuex.Store({
     },
     emailSignUpEnd: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        const signupURL = 'http://localhost:4036/user/auth/signup/?authcode=' + params.authcode + '&email=' + params.email;
+        const signupURL = 'http://navy.happybirthdayhub.com/api/user/auth/signup/?authcode=' + params.authcode + '&email=' + params.email;
         axios.get(signupURL)
         .then(res => {
           commit('initToken', res.data.data);
@@ -219,7 +219,7 @@ export default new Vuex.Store({
     },    
     deleteToken: ({commit}) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4036/user/token/delete').then(res => {
+        axios.post('http://navy.happybirthdayhub.com/api/user/token/delete').then(res => {
           commit('removeToken');
           resolve(res);
         }).catch(err => {
@@ -230,7 +230,7 @@ export default new Vuex.Store({
     },
     refreshToken: ({commit}) => { 
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4036/user/token/refresh').then(res => {
+        axios.post('http://navy.happybirthdayhub.com/api/user/token/refresh').then(res => {
           commit('refreshToken', res.data.data);
           //console.log(res.data);
           resolve(res.data.data);
@@ -243,7 +243,7 @@ export default new Vuex.Store({
     // oauth part
     gmailLogInEnd: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4036/user/oauth/login/google', params)
+        axios.post('http://navy.happybirthdayhub.com/api/user/oauth/login/google', params)
         .then(res => {
           if (res.data.message == 'OAuth success') {
             commit('initToken', res.data.data);
@@ -258,7 +258,7 @@ export default new Vuex.Store({
     },
     gmailSignUpEnd: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4036/user/oauth/signup/google', params)
+        axios.post('http://navy.happybirthdayhub.com/api/user/oauth/signup/google', params)
         .then(res => {
           if (res.data.message == 'OAuth success') {
             commit('initToken', res.data.data);
@@ -274,13 +274,13 @@ export default new Vuex.Store({
     // blog part
     createBlog: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4036/blog/create', params)
+        axios.post('http://navy.happybirthdayhub.com/api/blog/create', params)
         .then(res => {
           let newParams = {
             blogId: res.data.id,
             tags: params.tags
           }
-          axios.post('http://localhost:4036/blog/tag/create', newParams)
+          axios.post('http://navy.happybirthdayhub.com/api/blog/tag/create', newParams)
           .then(res=> {
             resolve(res);
           })
@@ -296,7 +296,7 @@ export default new Vuex.Store({
     },
     readBlog: ({commit}, blogId) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:4036/blog/read/?blogId=' + blogId)
+        axios.get('http://navy.happybirthdayhub.com/api/blog/read/?blogId=' + blogId)
         .then(res => {
           commit('getBlogInfo', res.data);
           resolve(res);
@@ -309,7 +309,7 @@ export default new Vuex.Store({
     },
     deleteBlog: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4036/blog/delete', params)
+        axios.post('http://navy.happybirthdayhub.com/api/blog/delete', params)
         .then(res => {
           resolve(res);
         })
@@ -321,19 +321,19 @@ export default new Vuex.Store({
     },
     updateBlog: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4036/blog/update', params)
+        axios.post('http://navy.happybirthdayhub.com/api/blog/update', params)
         .then(res => {
           let secParams = {
             blogId: params.blogId,
             tags: params.tags
           }
-          axios.post('http://localhost:4036/blog/tag/init', secParams)
+          axios.post('http://navy.happybirthdayhub.com/api/blog/tag/init', secParams)
           .then(res=> {
             let thirdParams = {
               blogId: params.blogId,
               tags: params.tags
             }
-            axios.post('http://localhost:4036/blog/tag/create', thirdParams)
+            axios.post('http://navy.happybirthdayhub.com/api/blog/tag/create', thirdParams)
             .then(res => {
               resolve(res);
             })
@@ -353,7 +353,7 @@ export default new Vuex.Store({
     },
     getGoodBlogs: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:4036/blog/getGoodBlogs')
+        axios.get('http://navy.happybirthdayhub.com/api/blog/getGoodBlogs')
         .then(res => {
           commit('getBlogs', res.data);
           resolve(res);
@@ -387,7 +387,7 @@ export default new Vuex.Store({
     },
     getMyBlogs: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:4036/blog/getMyBlogs')
+        axios.get('http://navy.happybirthdayhub.com/api/blog/getMyBlogs')
         .then(res => {
           commit('getBlogs', res.data);
           resolve(res);
@@ -400,7 +400,7 @@ export default new Vuex.Store({
     },
     getOtherBlogs: ({commit}, userId) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:4036/blog/getOtherBlogs/?userId=' + userId)
+        axios.get('http://navy.happybirthdayhub.com/api/blog/getOtherBlogs/?userId=' + userId)
         .then(res => {
           commit('getBlogs', res.data);
           resolve(res);
@@ -414,7 +414,7 @@ export default new Vuex.Store({
     // user part
     getProfile: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:4036/user/profile/read/me')
+        axios.get('http://navy.happybirthdayhub.com/api/user/profile/read/me')
         .then(res => {
           commit('getUserInfo', res.data)
           resolve(res);
@@ -427,7 +427,7 @@ export default new Vuex.Store({
     },
     updateProfile: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4036/user/profile/update/me', params)
+        axios.post('http://navy.happybirthdayhub.com/api/user/profile/update/me', params)
         .then(res => {
           // commit('getUserInfo', res.data)
           resolve(res);
@@ -441,7 +441,7 @@ export default new Vuex.Store({
     // comment part
     readComment: ({commit}, blogId) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:4036/blog/comment/read/?blogId=' + blogId)
+        axios.get('http://navy.happybirthdayhub.com/api/blog/comment/read/?blogId=' + blogId)
         .then(res => {
           // console.log(res.data);
           commit('getComments', res.data);
@@ -455,10 +455,10 @@ export default new Vuex.Store({
     },
     commitComment: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4036/blog/comment/create', params)
+        axios.post('http://navy.happybirthdayhub.com/api/blog/comment/create', params)
         .then(res => {
           if (res.data.msg == "success") {
-            axios.get('http://localhost:4036/blog/comment/read/?blogId=' + params.blogId)
+            axios.get('http://navy.happybirthdayhub.com/api/blog/comment/read/?blogId=' + params.blogId)
             .then(res => {
               // console.log(res.data);
               commit('getComments', res.data);
@@ -481,7 +481,7 @@ export default new Vuex.Store({
     //follow part
     createFollow: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4036/user/follow/create', params)
+        axios.post('http://navy.happybirthdayhub.com/api/user/follow/create', params)
         .then(res => {
           commit('getFollowType', res.data);
           resolve(res);
@@ -493,7 +493,7 @@ export default new Vuex.Store({
     },
     checkFollow: ({commit}, userId) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:4036/user/follow/check/?userId=' + userId)
+        axios.get('http://navy.happybirthdayhub.com/api/user/follow/check/?userId=' + userId)
         .then(res => {
           commit('getFollowType', res.data);
           resolve(res.data);
@@ -505,7 +505,7 @@ export default new Vuex.Store({
     },
     deleteFollow: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4036/user/follow/delete', params)
+        axios.post('http://navy.happybirthdayhub.com/api/user/follow/delete', params)
         .then(res => {
           commit('getFollowType', res.data);
           resolve(res);
@@ -517,7 +517,7 @@ export default new Vuex.Store({
     },
     getFollow: ({commit}) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:4036/user/follow/get')
+        axios.get('http://navy.happybirthdayhub.com/api/user/follow/get')
         .then(res => {
           commit('iniUserbioResults', res);
           resolve(res);
@@ -530,7 +530,7 @@ export default new Vuex.Store({
     // clap part
     createClap: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.post('http://localhost:4036/blog/clap/create', params)
+        axios.post('http://navy.happybirthdayhub.com/api/blog/clap/create', params)
         .then(res => {
           resolve(res);
         })
@@ -541,7 +541,7 @@ export default new Vuex.Store({
     },
     getClapNum: ({commit}, blogId) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:4036/blog/clap/get/?blogId=' + blogId)
+        axios.get('http://navy.happybirthdayhub.com/api/blog/clap/get/?blogId=' + blogId)
         .then(res => {
           commit('getClapNum', res.data);
           resolve(res);
@@ -553,7 +553,7 @@ export default new Vuex.Store({
     },
     checkClap: ({commit}, blogId) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:4036/blog/clap/check/?blogId=' + blogId)
+        axios.get('http://navy.happybirthdayhub.com/api/blog/clap/check/?blogId=' + blogId)
         .then(res => {
           commit('getClapType', res.data);
           resolve(res);
@@ -566,7 +566,7 @@ export default new Vuex.Store({
     // tag part
     sortTags: ({commit}, params) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:4036/blog/tag/sort')
+        axios.get('http://navy.happybirthdayhub.com/api/blog/tag/sort')
         .then((res) => {
           commit('sortTagsInfo', res.data);
           resolve(res);
@@ -578,7 +578,7 @@ export default new Vuex.Store({
     },
     getTag: ({commit}, blogId) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:4036/blog/tag/get/?blogId=' + blogId)
+        axios.get('http://navy.happybirthdayhub.com/api/blog/tag/get/?blogId=' + blogId)
         .then((res) => {
           commit('getTagsInfo', res.data);
           resolve(res);
@@ -592,7 +592,7 @@ export default new Vuex.Store({
     searchTopic: ({commit}) => {
       return new Promise((resolve, reject) => {
         let keyword = localStorage.getItem('searchKeyword');
-        axios.get('http://localhost:4036/blog/search/topic/?keyword=' + keyword)
+        axios.get('http://navy.happybirthdayhub.com/api/blog/search/topic/?keyword=' + keyword)
         .then((res) => {
           commit('getTopicResults', res.data.foundBlog);
           resolve(res);
@@ -605,7 +605,7 @@ export default new Vuex.Store({
     searchTag: ({commit}) => {
       return new Promise((resolve, reject) => {
         let keyword = localStorage.getItem('searchKeyword');
-        axios.get('http://localhost:4036/blog/search/tag/?keyword=' + keyword)
+        axios.get('http://navy.happybirthdayhub.com/api/blog/search/tag/?keyword=' + keyword)
         .then(res => {
           commit('getTagResults', res.data);
           resolve(res);
@@ -617,7 +617,7 @@ export default new Vuex.Store({
     },
     searchTagBlogs: ({commit}, tagName) => {
       return new Promise((resolve, reject) => {
-        axios.get('http://localhost:4036/blog/search/tagBlog/?name=' + tagName)
+        axios.get('http://navy.happybirthdayhub.com/api/blog/search/tagBlog/?name=' + tagName)
         .then(res => {
           commit('getTagBlogs', res.data);
           resolve(res);
@@ -630,7 +630,7 @@ export default new Vuex.Store({
     searchContent: ({commit}) => {
       return new Promise((resolve, reject) => {        
         let keyword = localStorage.getItem('searchKeyword');
-        axios.get('http://localhost:4036/blog/search/content/?keyword=' + keyword)
+        axios.get('http://navy.happybirthdayhub.com/api/blog/search/content/?keyword=' + keyword)
         .then(res => {
           commit('getContentResults', res.data.foundBlog);
           resolve(res);
@@ -643,7 +643,7 @@ export default new Vuex.Store({
     searchUserBioinfo: ({commit}) => {
       return new Promise((resolve, reject) => {
         let keyword = localStorage.getItem('searchKeyword');
-        axios.get('http://localhost:4036/blog/search/userbio/?keyword=' + keyword)
+        axios.get('http://navy.happybirthdayhub.com/api/blog/search/userbio/?keyword=' + keyword)
         .then(res => {
           commit('getuserbioResults', res.data.foundUser);
           resolve(res);
